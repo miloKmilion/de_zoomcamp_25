@@ -2803,6 +2803,16 @@ pure-eval = "*"
 tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [[package]]
+name = "stubs"
+version = "1.0.0"
+description = "Tools for setting up stubs and mocks."
+optional = false
+python-versions = "*"
+files = [
+    {file = "stubs-1.0.0-py3-none-any.whl", hash = "sha256:f328a0f99880b0684db69288dcb104fa93d942df298ddd1659edaa7521415da8"},
+]
+
+[[package]]
 name = "tabulate"
 version = "0.9.0"
 description = "Pretty-print tabular data"
@@ -3080,4 +3090,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "36a3e6e47d64654b0db3514bda9ef9d57e7862bcfe9e1e5e3e6495d6c5b12b44"
+content-hash = "b765c832cd7ba1bfe9b50a7ce4558e82e7966b4482d50d176ad4d059333de4f9"

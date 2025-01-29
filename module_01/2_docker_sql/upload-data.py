@@ -36,7 +36,7 @@ file_path = "yellow_tripdata_2021-01.parquet"
 table = pq.read_table(file_path)
 
 # Define the chunk size
-chunk_size = 100  # Adjust the chunk size as needed
+chunk_size = 10000  # Adjust the chunk size as needed
 total_rows = table.num_rows
 
 # Start reading and processing chunks

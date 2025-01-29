@@ -155,3 +155,60 @@ CREATE TABLE "yellow_taxi_data" (
 The output of the cindicate the modus in which the data needs to be ingested in postgres. To do that is needed a platform to perform the connection and write data into the database.
 
 One best practice is not to upload the entire dataset in one go but chnk it into pieces.
+
+## PGAdmin
+Is a web-based GUI tool to interact with the Postgres database sessions. It is more interactive than PGCLI
+
+We not need to install it, but download the Docker image needed to run it locally.
+
+to run it via docker:
+
+```bash
+docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -p 8080:80 \
+  dpage/pgadmin4
+```
+
+When creating the server in localhost:8080 it will not work since the docker port is not the same as the one locally, we need to tunnel the connection via network.
+
+## docker network create
+
+it is the tunnel between the client and the other daemon API 
+
+```bash
+docker network create [OPTIONS] network
+```
+
+> docker network create pg-network
+5ce4dd79e401e4faaa2f3a0af50d198f0f8e2c04d854d0fbd232c97fa858c42b
+
+Now we need to specify that the container runs in such network. To do so, we need to add the following to our configuration:
+
+```bash
+docker network create pg-network
+
+docker run -it \
+  -e POSTGRES_USER=root \
+  -e POSTGRES_PASSWORD=root \
+  -e POSTGRES_DB=ny_taxi \
+  -v /home/cperez/local_projects/de_zoomcamp_25/module_01/2_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5433:5432 \
+  --network=pg-network \
+  --name pg-database \
+  postgres:13
+```
+
+Name is how pg-adming will discover the DB.
+
+And simultaneously the network has to be added to the pgadmin docker command.
+
+```bash
+docker run -it \
+  -p 8080:80 \
+  --network=pg-network \
+  --name pgadmin \
+  dpage/pgadmin4
+```
+

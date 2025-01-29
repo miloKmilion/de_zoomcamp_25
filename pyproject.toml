@@ -13,6 +13,7 @@ jupyter = "^1.1.1"
 pyarrow = "^19.0.0"
 sqlalchemy = "^2.0.37"
 psycopg2 = "^2.9.10"
+stubs = "^1.0.0"
 
 
 [build-system]
