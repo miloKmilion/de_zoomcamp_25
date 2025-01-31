@@ -38,7 +38,7 @@ We can couple several of these small pipelines into one big one each of them in 
 
 ## Running Docker
 
-The `Dockerfile` contains all the running steps to be run by Docker. 
+The `Dockerfile` contains all the running steps to be run by Docker.
 
 To test docker in the terminal:
 > docker run hello-world
@@ -157,6 +157,7 @@ The output of the cindicate the modus in which the data needs to be ingested in 
 One best practice is not to upload the entire dataset in one go but chnk it into pieces.
 
 ## PGAdmin
+
 Is a web-based GUI tool to interact with the Postgres database sessions. It is more interactive than PGCLI
 
 We not need to install it, but download the Docker image needed to run it locally.
@@ -175,7 +176,7 @@ When creating the server in localhost:8080 it will not work since the docker por
 
 ## docker network create
 
-it is the tunnel between the client and the other daemon API 
+it is the tunnel between the client and the other daemon API
 
 ```bash
 docker network create [OPTIONS] network
@@ -193,8 +194,8 @@ docker run -it \
   -e POSTGRES_USER=root \
   -e POSTGRES_PASSWORD=root \
   -e POSTGRES_DB=ny_taxi \
-  -v /home/cperez/local_projects/de_zoomcamp_25/module_01/2_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data \
-  -p 5433:5432 \
+  -v /home/cperez/projects/de_zoomcamp_25/module_01/2_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
   --network=pg-network \
   --name pg-database \
   postgres:13
@@ -206,9 +207,52 @@ And simultaneously the network has to be added to the pgadmin docker command.
 
 ```bash
 docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
   -p 8080:80 \
   --network=pg-network \
   --name pgadmin \
   dpage/pgadmin4
 ```
 
+After modifying the Dockerfile to add the data ingestion script.
+> docker build -t taxi_ingest:v001 .
+
+The changes such as the localhost has to be renamed to pg-database and connected to the network. Changes to the script will need to trigger the docker build again. This is not necessary if we use arguments like argparse().
+
+> docker run -it --network=pg-network taxi_ingest:v001
+
+## Docker-Compose
+
+It is a YAML file containing all the configuration for several docker images. Compose itself is a tool for denining several docker images into a YAML file. Then with a single command, it is possible to start all the services from the configurations.
+
+> docker-compose
+
+Initially, we have to define the services in our case will be the following:
+
+```bash
+services:
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ny_taxi
+    volumes:
+      - ./ny_taxi_postgres_data:/var/lib/postgresql/data:rw
+    ports:
+      - 5432:5432 
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    depends_on:
+      - pgdatabase
+    ports:
+     - 8080:80
+```
+
+We need to specify again the server inside the postgres localhost environment, being pgadmin, root and root.
+
+To stop the docker compose: we can Ctrl-C or ```docker-compose down```. Similarly to triger and detach from the console: ```docker-compose up -d```.

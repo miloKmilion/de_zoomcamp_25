@@ -2,11 +2,12 @@
 FROM python:3.9
 
 # Initial command with installables.
-RUN pip install pandas
+RUN apt-get install wget
+RUN pip install pandas sqlalchemy pyarrow psycopg2 requests
 
 WORKDIR /app
 # Copy will add the file in the host machine to the destination.
-COPY pipeline.py pipeline.py
+COPY ingest_data.py ingest_data.py 
 
 # To override and use bash as typing, and not python. 
-ENTRYPOINT [ "python", "pipeline.py" ]
+ENTRYPOINT [ "python", "ingest_data.py" ]
