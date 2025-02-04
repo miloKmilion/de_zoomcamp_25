@@ -212,3 +212,5 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+module_01/1_terraform_gcp/terrademo/keys/*
