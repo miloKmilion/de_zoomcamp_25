@@ -213,4 +213,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-module_01/1_terraform_gcp/terrademo/keys/*
+module_01/1_terraform_gcp/terrademo/keys/*module_01/1_terraform_gcp/terrademo/keys/my-creds.json
