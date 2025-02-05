@@ -1,9 +1,13 @@
 [tool.poetry]
-name = "de-zoomcamp-25"
+name = "de_zoomcamp_25"
 version = "0.1.0"
 description = ""
 authors = ["Camilo Perez <camilo.perez@midiagnostics.com>"]
 readme = "README.md"
+packages = [
+    { include = "de_zoomcamp_25" }
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.9"
