@@ -58,7 +58,7 @@ we need to set the infrastructure as follows:
         main.tf with the provider configuration.  
 ```
 
-URL with the config for the bucket: 
+URL with the config for the bucket:
 
 ```html
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket.html
